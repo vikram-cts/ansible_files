@@ -1,0 +1,14 @@
+---
+- name: This play will install apache web servers on all the hosts
+  hosts: all
+  become: yes
+  tasks:
+    - name: Task1 will install apache2 using apt
+      apt:
+        name: apache2
+        update_cache: yes
+        state: latest
+    - name: Task4 will start apache2
+      service:
+        name: apache2
+        state: started
