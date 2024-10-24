@@ -1,0 +1,27 @@
+---
+- hosts: all
+  become: yes
+  user: sirin_a
+  connection: ssh
+  gather_facts: no
+  tasks:
+    - block:
+        - name: Install {{ web_package }} package
+          apt:
+            name: "{{ web_package }}"
+            state: latest
+      rescue:
+        - name: Install {{ db_package }} package
+          apt:
+            name: "{{ db_package }}"
+            state: latest
+      always:
+        - name: Start {{ db_service }} service
+          service:
+            name: "{{ db_service }}"
+            state: started
+  vars:
+    web_package: apche2
+    db_package: mariadb-server
+    db_service: mariadb
+# Note: Apache spelling is incorrect and it is intentional for this lab. We can correct it and run it after testing this code.
