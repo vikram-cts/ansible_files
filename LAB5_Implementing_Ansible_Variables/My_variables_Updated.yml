@@ -1,0 +1,19 @@
+---
+- hosts: "{{ hostname }}"
+  become: yes
+  vars:
+    hostname: all
+    package1: apache2
+    destination: /var/www/html/index.html
+    source: /home/sirin_a/variables-lab/index2.html
+  tasks:
+    - name: Install the specified package
+      apt:
+        name: "{{ package1 }}"
+        state: latest
+    - name: Copy the index file
+      copy:
+        src: "{{ source }}"
+        dest: "{{ destination }}"
+# This playbook is out of scope but a good one using Dynamic Host Selection, 
+# Privilege Escalation, Mode Detailed Tasks, Comprehensive Variables and Task Definitions

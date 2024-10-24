@@ -1,0 +1,17 @@
+---
+hosts: "{{ hostname }}"
+become: yes
+any_errors_fatal: yes
+vars:
+  hostname: all
+  package1: apache2
+tasks:
+  - name: Install defined package
+    apt:
+      name: "{{ package1 }}"
+      update_cache: yes
+      state: latest
+  - name: Start desired service
+    service:
+      name: "{{ package1 }}"
+      state: started

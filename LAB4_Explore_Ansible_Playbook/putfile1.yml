@@ -1,0 +1,34 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Creating a new user cloudthat
+      user:
+        name: cloudthat
+        
+    - name: Creating a directory for the new user
+      file:
+        path: /home/cloudthat
+        state: directory
+        
+    - name: Creating a folder named ansible
+      file:
+        path: /home/cloudthat/ansible
+        state: directory
+        
+    - name: Creating a file within the folder ansible
+      file:
+        path: /home/cloudthat/ansible/hello.txt
+        state: touch
+        
+    - name: Changing owner and group with permission for the file within the folder named ansible
+      file:
+        path: /home/cloudthat/ansible/hello.txt
+        owner: root
+        group: cloudthat
+        mode: '0665'  # It's a good practice to quote the mode to avoid potential issues with leading zeros
+        
+    - name: Adding content to the file created named hello.txt
+      lineinfile:
+        path: /home/cloudthat/ansible/hello.txt
+        line: "This is line 1"

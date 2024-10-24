@@ -1,0 +1,29 @@
+---
+- name: Install development tools based on OS type and memory
+  hosts: all
+  become: yes
+  tasks:
+
+    - name: Gather memory facts
+      setup:
+        gather_subset:
+          - hardware  # Ensure that memory facts are gathered
+
+    - name: Install development tools on Ubuntu if RAM > 4GB
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - build-essential
+        - git
+        - vim
+      when: ansible_facts['os_family'] == "Debian" and ansible_facts['memtotal_mb'] > 4096
+
+    - name: Install development tools on Red Hat if RAM > 4GB
+      yum:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - git
+        - httpd
+      when: ansible_facts['os_family'] == "RedHat" and ansible_facts['memtotal_mb'] > 4096

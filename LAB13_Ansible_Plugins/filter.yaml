@@ -1,0 +1,7 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Convert message to uppercase
+      debug:
+        msg: "{{ 'hello world' | upper }}"

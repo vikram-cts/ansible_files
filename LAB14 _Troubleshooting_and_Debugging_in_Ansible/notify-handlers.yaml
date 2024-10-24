@@ -1,0 +1,23 @@
+---
+- name: Install and configure Apache Web Server
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install Apache
+      apt:
+        name: apache2
+        state: present
+      notify: Restart Apache
+
+    - name: Deploy index.html
+      copy:
+        content: "<html><h1>Welcome to node {{ ansible_hostname }}</h1></html>"
+        dest: /var/www/html/index.html
+      notify: Restart Apache
+
+  handlers:
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted

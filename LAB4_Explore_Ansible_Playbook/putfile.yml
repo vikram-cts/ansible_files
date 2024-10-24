@@ -1,0 +1,12 @@
+---
+- hosts: all  # Targets all hosts in the inventory
+  become: yes  # Privilege escalation to execute tasks as a different user (usually root)
+  tasks:  # Beginning of the tasks section
+    - name: Creating a new user cloudthat  # Descriptive task name
+      user:  # Using the user module
+        name: cloudthat  # Name of the user to create
+        
+    - name: Creating a directory for the new user  # Descriptive task name
+      file:  # Using the file module
+        path: /home/cloudthat  # Path for the new directory
+        state: directory  # Ensures that the directory exists

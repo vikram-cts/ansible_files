@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: yes
+  connection: ssh
+  vars_prompt:
+    - name: pkginstall
+      prompt: Which package do you want to install?
+      default: telnet
+      private: no
+  tasks:
+    - name: Install the package specified
+      apt:
+        name: "{{ pkginstall }}"  # Changed from pkg to name
+        state: latest

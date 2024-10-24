@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: yes
+  connection: ssh
+  tasks:
+    - name: Adding a number of users
+      user:
+        name: "{{ item.name }}"
+        uid: "{{ item.uid }}"
+        state: present
+      loop:  # Use loop instead of with_items
+        - { name: "userX", uid: 2000 }
+        - { name: "userY", uid: 3000 }
+        - { name: "userZ", uid: 4000 }

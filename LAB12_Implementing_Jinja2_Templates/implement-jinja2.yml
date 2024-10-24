@@ -1,0 +1,13 @@
+---
+- name: playbook
+  hosts: all
+  gather_facts: true
+  become: yes
+  tasks:
+    - name: Render template
+      template:
+        src: new-motd.j2
+        dest: /etc/motd
+        owner: sirin_a
+        group: sirin_a
+        mode: '0644'  # Quoting the mode to avoid potential issues

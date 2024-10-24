@@ -1,0 +1,14 @@
+---
+- name: This is Loop Lab
+  become: yes
+  hosts: all
+  tasks:
+    - name: Installing all defined packages
+      apt: 
+        name: "{{ item }}"
+        state: present
+      loop:
+        - wget
+        - curl
+        - tree
+        - vsftpd

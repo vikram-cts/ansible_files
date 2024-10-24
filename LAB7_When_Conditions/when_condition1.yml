@@ -1,0 +1,15 @@
+- name: Installing list of packages
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - tree
+        - curl
+        - wget
+        - telnet
+        - vsftpd
+      when: ansible_facts['distribution'] == 'Ubuntu'

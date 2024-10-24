@@ -1,0 +1,10 @@
+---
+- hosts: all
+  tasks:
+    - name: Check if the file is created
+      stat:
+        path: /tmp/somefile.txt
+      register: file_status
+      until: file_status.stat.exists
+      retries: 5
+      delay: 10

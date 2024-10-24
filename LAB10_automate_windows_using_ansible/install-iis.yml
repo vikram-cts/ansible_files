@@ -1,0 +1,25 @@
+---
+- name: Manage Windows Hosts
+  hosts: windows
+  tasks:
+    - name: Install IIS (Web-Server)
+      win_feature:
+        name: Web-Server
+        state: present
+
+    - name: Ensure IIS service is running
+      win_service:
+        name: W3SVC
+        start_mode: auto
+        state: started
+
+    - name: Verify IIS installation by fetching default page
+      win_uri:
+        url: http://localhost
+        method: GET
+        return_content: yes
+      register: result
+
+    - name: Display the result of the default page request
+      debug:
+        var: result.content

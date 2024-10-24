@@ -1,0 +1,10 @@
+---
+- name: Install PuTTY on Windows server
+  hosts: windows
+  tasks:
+    - name: Download and install PuTTY from URL
+      win_package:
+        path: "https://the.earth.li/~sgtatham/putty/latest/w64/putty-64bit-0.81-installer.msi"
+        product_id: "{D6CB24DD-E28C-497D-9837-0475D0E78E33}"
+        arguments: "/quiet"
+        state: present

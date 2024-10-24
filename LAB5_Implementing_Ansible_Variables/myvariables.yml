@@ -1,0 +1,6 @@
+---
+- hosts: all
+  vars:
+    package1: apache2
+    destination: /var/www/html/index.html
+    source: /home/sirin_a/variables-lab/index2.html

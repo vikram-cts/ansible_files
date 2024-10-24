@@ -1,0 +1,13 @@
+---
+- name: Installing Apache on the Ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    - name: Gather package facts
+      package_facts:  # Added proper indentation and ensured module is properly defined
+
+    - name: Install Apache if not already installed
+      apt:
+        name: apache2
+        state: present
+      when: "'apache2' not in ansible_facts.packages"

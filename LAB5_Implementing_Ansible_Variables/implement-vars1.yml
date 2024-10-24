@@ -1,0 +1,21 @@
+---
+- hosts: '{{ hostname }}'  # Dynamic host selection using a variable
+  become: yes  # Privilege escalation
+  vars_files:  # Including external variables file
+    - myvariables.yml
+  tasks:  # Beginning of the tasks section
+    - name: Install defined package  # Descriptive task name
+      apt:  # Using the apt module
+        name: '{{ package1 }}'  # Variable for the package name
+        update_cache: yes  # Update the apt cache before installing
+        state: latest  # Ensure the latest version is installed
+        
+    - name: Start desired service  # Descriptive task name
+      service:  # Using the service module
+        name: '{{ package1 }}'  # Variable for the service name
+        state: started  # Ensure the service is running
+
+    - name: Copy required index.html to the document folder for httpd  # Descriptive task name
+      copy:  # Using the copy module
+        src: '{{ source }}'  # Source file path variable
+        dest: '{{ destination }}'  # Destination file path variable

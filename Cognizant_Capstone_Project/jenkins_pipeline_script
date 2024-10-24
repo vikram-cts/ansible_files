@@ -1,0 +1,54 @@
+    pipeline {
+    agent any
+
+    environment {
+        GITHUB_REPO_URL = 'https://github.com/sirinali07/cognizant-capstone-repo.git'
+        GIT_BRANCH = 'master'
+        INVENTORY_FILE = 'ansible_playbooks/inventory'
+        PLAYBOOK_FILE = 'ansible_playbooks/prometheus.yaml'
+        SSH_KEY_CREDENTIAL_ID = 'SSH-KEY'
+        
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                script {
+                    sh '''
+                        if [ -d "ansible_playbooks" ]; then
+                            rm -rf ansible_playbooks
+                        fi
+                        git clone -b ${GIT_BRANCH} ${GITHUB_REPO_URL} ansible_playbooks
+                    '''
+                }
+            }
+        }
+
+        stage('Set Up SSH Key') {
+            steps {
+                script {
+                    sshagent([SSH_KEY_CREDENTIAL_ID]) {
+                        echo 'SSH Key added for Ansible playbook execution.'
+                    }
+                }
+            }
+        }
+
+        
+
+        stage('Execute Ansible Playbook') {
+            steps {
+                script {
+                    sshagent([SSH_KEY_CREDENTIAL_ID]) {
+                        sh '''
+                            ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ${INVENTORY_FILE} ${PLAYBOOK_FILE} \
+                            -e "target_user=sirin_a"
+                        '''
+                    }
+                }
+            }
+        }
+    }
+
+ 
+}

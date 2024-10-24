@@ -1,0 +1,10 @@
+---
+- name: Installing Packages on Managed Node
+  become: yes
+  hosts: all
+  tasks:
+    - name: Attempt to install httpd package (for testing failure)
+      apt:
+        name: httpd
+        state: present
+# we do not need to add - before apt here as we already have it for "name"

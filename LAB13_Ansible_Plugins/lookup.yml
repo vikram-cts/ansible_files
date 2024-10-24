@@ -1,0 +1,7 @@
+---
+- name: Read content from a file using lookup plugin
+  hosts: localhost
+  tasks:
+    - name: Fetch content from file
+      debug:
+        msg: "{{ lookup('file', '/tmp/example.txt') }}"
